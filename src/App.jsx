@@ -53,7 +53,10 @@ function getColor(number) {
 // const COLORS = ['#1F0318', '#FFC43D', '#EF476F', '#72E1D1', '#3777FF', '#DC602E', '#B118C8', '#DE6C83', '#D1345B', '#C42021'];
 const COLORS = ['#FFF900', '#FFC43D', '#FFB700', '#DC602E', '#C42021', '#DE6C83', '#EF476F', '#B118C8', '#9E00FF', '#6C04FF'];
 
+//#TODO, when done sorting, display sorted icon(checkmark?) and disable the play button.
+
 function App() {
+  const [algorithm, setAlgorithm] = useState(bubbleSort);
   const [numbers, setNumbers] = useState(randomNumbers);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
@@ -64,9 +67,9 @@ function App() {
 
   const timeoutIdRef = useRef(null);
   const lastIndicesRef = useRef([0, 0]);
-
+  const playButtonRef = useRef();
   const { current: [lastI, lastJ]} = lastIndicesRef;
-
+  const { current: playButton} = playButtonRef;
   useEffect(() => window.addEventListener('resize', () => {
     if (timeoutIdRef.current) {
       clearTimeout(timeoutIdRef.current);
@@ -124,6 +127,23 @@ function App() {
     }
     setIsPlaying(false);
     setCurrentNumbers([null, null]);
+    return arr;
+  }
+
+  async function insertionSort(arr, lastI = 0, lastJ = 0) {
+    if (arr.length < 2) return arr;
+    for (let i = 1; i < arr.length; i++) {
+      for (let j = i; j > 0; j--) {
+        console.log(arr[j], arr[j - 1]);
+        if (arr[j] < arr[j - 1]) {
+          //Destructuring can be used to swap array elements?!?!?!?!?! O_O, it works because the left hand side takes the values at the destructured positions and stores it in the variable defined... which can include array elements!!!!
+          [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
+          console.log(arr[j], arr[j - 1]);
+        } else {
+          break;
+        }
+      }
+    }
     return arr;
   }
 
@@ -187,16 +207,18 @@ function App() {
               }
             }
           }
+          ref={playButtonRef}
         >
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
         <button 
           onClick={
-            () => {
+            (e) => {
               lastIndicesRef.current = [0, 0];
               setSwaps(0);
               setCurrentNumbers([0, 1]);
-              setNumbers(new Array(+length).fill(null).map(createRandomNumberObject))
+              setNumbers(new Array(+length).fill(null).map(createRandomNumberObject));
+              playButton.focus();
             }
           }
           disabled={isPlaying}
@@ -209,7 +231,8 @@ function App() {
               lastIndicesRef.current = [0, 0];
               setSwaps(0);
               setCurrentNumbers([0, 1]);
-              setNumbers([...numbers].reverse())
+              setNumbers([...numbers].reverse());
+              playButton.focus();
             }
           }
           disabled={isPlaying}
