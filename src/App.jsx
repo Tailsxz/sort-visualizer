@@ -56,7 +56,7 @@ const COLORS = ['#FFF900', '#FFC43D', '#FFB700', '#DC602E', '#C42021', '#DE6C83'
 //#TODO, when done sorting, display sorted icon(checkmark?) and disable the play button.
 
 function App() {
-  const [algorithm, setAlgorithm] = useState(bubbleSort);
+  const [algorithm, setAlgorithm] = useState('insertionSort');
   const [numbers, setNumbers] = useState(randomNumbers);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
@@ -77,75 +77,93 @@ function App() {
     timeoutIdRef.current = setTimeout(() => setWindowHeight(window.innerHeight), 500)
     // setWindowHeight(window.innerHeight);
   }));
+  const algorithms = {
+    bubbleSort: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
+      setIsPlaying(true);
+      for (let i = lastI; i < arr.length; i++) {
+        let swapped = false;
+        for (let j = 0; j < arr.length - 1 - i; j++) {
+          if (lastJ) {
+            j = lastJ;
+            lastJ = 0;
+          }
+          const isPlaying = await new Promise((res) => setIsPlaying((currentPlayState) => {
+            res(currentPlayState)
+            return currentPlayState
+          }));
+          if (!isPlaying) {
+            return;
+          }
+          if (arr[j].number > arr[j + 1].number) {
+            setCurrentNumbers([j, j + 1]);
+            setSwaps((swaps) => swaps + 1)
+            let temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+            // arr[j].number = arr[j].number ^ arr[j + 1].number; //intermediate
+            // arr[j + 1].number = arr[j + 1].number ^ arr[j].number;
+            // arr[j].number = arr[j].number ^ arr[j + 1].number;
+            setNumbers([...arr]);
+            await new Promise((res) => {
+              setTimeout(() => res(null), 1 / speed * 500);
+            });
+            swapped = true;
+          }
+
+          if (j >= arr.length - 2 - i) {
+            lastIndicesRef.current[1] = 0;
+            lastIndicesRef.current[0] = i + 1;
+          } else {
+            lastIndicesRef.current = [i, j + 1];
+          }
+        }
   
-  async function bubbleSort(arr, lastI = 0, lastJ = 0) {
-    setIsPlaying(true);
-    for (let i = lastI; i < arr.length; i++) {
-      let swapped = false;
-      for (let j = 0; j < arr.length - 1 - i; j++) {
-        if (lastJ) {
-          j = lastJ;
-          lastJ = 0;
-        }
-        const isPlaying = await new Promise((res) => setIsPlaying((currentPlayState) => {
-          //Right now if we "pause" and "play" it will start the alg starting at the beginning rather than where we left off!
-          res(currentPlayState)
-          return currentPlayState
-        }));
-        if (!isPlaying) {
-          return;
-        }
-        if (arr[j].number > arr[j + 1].number) {
-          setCurrentNumbers([j, j + 1]);
-          setSwaps((swaps) => swaps + 1)
-          let temp = arr[j];
-          arr[j] = arr[j + 1];
-          arr[j + 1] = temp;
-          // arr[j].number = arr[j].number ^ arr[j + 1].number; //intermediate
-          // arr[j + 1].number = arr[j + 1].number ^ arr[j].number;
-          // arr[j].number = arr[j].number ^ arr[j + 1].number;
-          setNumbers([...arr]);
-          await new Promise((res) => {
-            setTimeout(() => res(null), 1 / speed * 500);
-          });
-          swapped = true;
-        }
-        console.log(lastIndicesRef.current, currentNumbers, arr.length - i - 1);
-
-        if (j >= arr.length - 2 - i) {
-          lastIndicesRef.current[1] = 0;
-          lastIndicesRef.current[0] = i + 1;
-        } else {
-          lastIndicesRef.current = [i, j + 1];
+        if (!swapped && lastJ === false) {
+          console.log('breaking out of the loop!');
+          break
         }
       }
-
-      if (!swapped && lastJ === false) {
-        console.log('breaking out of the loop!');
-        break
-      }
-    }
-    setIsPlaying(false);
-    setCurrentNumbers([null, null]);
-    return arr;
-  }
-
-  async function insertionSort(arr, lastI = 0, lastJ = 0) {
-    if (arr.length < 2) return arr;
-    for (let i = 1; i < arr.length; i++) {
-      for (let j = i; j > 0; j--) {
-        console.log(arr[j], arr[j - 1]);
-        if (arr[j] < arr[j - 1]) {
-          //Destructuring can be used to swap array elements?!?!?!?!?! O_O, it works because the left hand side takes the values at the destructured positions and stores it in the variable defined... which can include array elements!!!!
-          [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
-          console.log(arr[j], arr[j - 1]);
-        } else {
-          break;
+      setIsPlaying(false);
+      setCurrentNumbers([null, null]);
+      return arr;
+    },
+    insertionSort:   async function insertionSort(arr, lastI = 0, lastJ = 0) {
+      if (arr.length < 2) return arr;
+      setIsPlaying(true);
+      for (let i = 1; i < arr.length; i++) {
+        for (let j = i; j > 0; j--) {
+          const isPlaying = await new Promise((res) => setIsPlaying((currentPlayState) => {
+            res(currentPlayState)
+            return currentPlayState
+          }));
+          if (!isPlaying) {
+            console.log('hello')
+            return;
+          }
+          if (arr[j].number < arr[j - 1].number) {
+            setCurrentNumbers([j - 1, j]);
+            setSwaps((swaps) => swaps + 1);
+            //Destructuring can be used to swap array elements?!?!?!?!?! O_O, it works because the left hand side takes the values at the destructured positions and stores it in the variable defined... which can include array elements!!!!
+            [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
+            await new Promise((res) => {
+              setTimeout(() => res(null), 1 / speed * 500);
+            });
+            setNumbers([...arr]);
+            if (j === 0) {
+              lastIndicesRef.current[0] = i + 1;
+              lastIndicesRef.current[1] = i;
+            } else {
+              lastIndicesRef.current = [i, j - 1];
+            }
+          } else {
+            break;
+          }
         }
       }
-    }
-    return arr;
-  }
+      setIsPlaying(false);
+      setCurrentNumbers([null, null]);
+    },
+  };
 
   function handleNav(e) {
     const controls = [...e.currentTarget.children];
@@ -201,7 +219,7 @@ function App() {
           onClick={
             () => {
               if (!isPlaying) {
-                bubbleSort(numbers, lastI, lastJ);
+                algorithms[algorithm](numbers, lastI, lastJ);
               } else {
                 setIsPlaying(false);
               }
