@@ -57,14 +57,14 @@ const COLORS = ['#FFF900', '#FFC43D', '#FFB700', '#DC602E', '#C42021', '#DE6C83'
 
 function App() {
   const [algorithm, setAlgorithm] = useState('insertion');
-  const [numbers, setNumbers] = useState(randomNumbers);
+  const [numbers, setNumbers] = useState(() => randomNumbers);
+  const [initialNumbers, setInitialNumbers] = useState(() => [...randomNumbers]);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
   const [speed, setSpeed] = useState(1);
   const [swaps, setSwaps] = useState(0);
   const [previousSwaps, setPreviousSwaps] = useState(0);
-  const [isSorted, setIsSorted] = useState(false);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   const timeoutIdRef = useRef(null);
@@ -81,14 +81,9 @@ function App() {
     // setWindowHeight(window.innerHeight);
   }));
 
-  if (isSorted && swaps !== previousSwaps) {
-    setPreviousSwaps(swaps);
-  }
-
   const sortingAlgorithms = useMemo(() => ({
     bubble: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
       setIsPlaying(true);
-      setIsSorted(false);
       for (let i = lastI; i < arr.length; i++) {
         let swapped = false;
         for (let j = 0; j < arr.length - 1 - i; j++) {
@@ -134,11 +129,9 @@ function App() {
       }
       setIsPlaying(false);
       setCurrentNumbers([null, null]);
-      setIsSorted(true);
     },
     insertion:   async function insertionSort(arr, lastI = 1, lastJ) {
       if (arr.length < 2) return arr;
-      setIsSorted(false);
       setIsPlaying(true);
       for (let i = lastI; i < arr.length; i++) {
         for (let j = i; j > 0; j--) {
@@ -147,7 +140,6 @@ function App() {
             return currentPlayState
           }));
           if (!isPlaying) {
-            console.log('hello')
             return;
           }
           if (lastJ) {
@@ -177,7 +169,6 @@ function App() {
       }
       setIsPlaying(false);
       setCurrentNumbers([null, null]);
-      setIsSorted(true);
     },
   }), [speed]);
   
@@ -206,11 +197,14 @@ function App() {
     }
   }
 
-  function resetState() {
+  function resetGridState() {
+    if (swaps > 0) {
+      console.log('setting previous to', swaps);
+      setPreviousSwaps(swaps);
+    }
     lastIndicesRef.current = [null, null];
     setSwaps(0);
-    setCurrentNumbers([0, 1]);
-    setIsSorted(false);
+    setCurrentNumbers([0, 1])
   }
 
   const bars = numbers.map(({number, id}, i) => {
@@ -239,7 +233,7 @@ function App() {
       <div className="algs">
         <button 
           onClick={() => {
-            resetState();
+            resetGridState();
             setAlgorithm('bubble');
           }}
           disabled={isPlaying}
@@ -248,18 +242,18 @@ function App() {
         </button>
         <button 
           onClick={() => {
-            resetState();
+            resetGridState();
             setAlgorithm('insertion');
           }}
           disabled={isPlaying}
-        >
+          >
           Insertion
         </button>
       </div>
       <div 
         className="controls"
         onKeyDown={handleNav}
-      >
+        >
         <button 
           onClick={
             () => {
@@ -271,14 +265,27 @@ function App() {
             }
           }
           ref={playButtonRef}
-        >
+          >
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
         <button 
           onClick={
             () => {
-              resetState();
-              setNumbers(new Array(+length).fill(null).map(createRandomNumberObject));
+              setNumbers([...initialNumbers]);
+              resetGridState();
+            }
+          }
+          disabled={isPlaying}
+          >
+          Reset
+        </button>
+        <button 
+          onClick={
+            () => {
+              let randomNumbers = new Array(+length).fill(null).map(createRandomNumberObject);
+              resetGridState();
+              setInitialNumbers([...randomNumbers]);
+              setNumbers(randomNumbers);
               playButton.focus();
             }
           }
@@ -289,9 +296,11 @@ function App() {
         <button 
           onClick={
             () => {
-              resetState();
-              setNumbers([...numbers].reverse());
-              setIsSorted(false);
+              const reversedNumbers = [...numbers].reverse();
+              resetGridState();
+              setInitialNumbers([...reversedNumbers]);
+              setNumbers(reversedNumbers);
+              
               playButton.focus();
             }
           }
