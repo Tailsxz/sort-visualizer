@@ -1,4 +1,4 @@
-import {  useState, useEffect, useRef } from 'react';
+import {  useState, useEffect, useRef, useMemo } from 'react';
 import Grid from './components/Grid.jsx';
 import Bar from './components/Bar.jsx';
 import './App.css';
@@ -56,20 +56,23 @@ const COLORS = ['#FFF900', '#FFC43D', '#FFB700', '#DC602E', '#C42021', '#DE6C83'
 //#TODO, when done sorting, display sorted icon(checkmark?) and disable the play button.
 
 function App() {
-  const [algorithm, setAlgorithm] = useState('insertionSort');
+  const [algorithm, setAlgorithm] = useState('insertion');
   const [numbers, setNumbers] = useState(randomNumbers);
+  const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
   const [speed, setSpeed] = useState(1);
   const [swaps, setSwaps] = useState(0);
-  const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
+  const [previousSwaps, setPreviousSwaps] = useState(0);
+  const [isSorted, setIsSorted] = useState(false);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   const timeoutIdRef = useRef(null);
-  const lastIndicesRef = useRef([0, 0]);
+  const lastIndicesRef = useRef([null, null]);
   const playButtonRef = useRef();
   const { current: [lastI, lastJ]} = lastIndicesRef;
   const { current: playButton} = playButtonRef;
+
   useEffect(() => window.addEventListener('resize', () => {
     if (timeoutIdRef.current) {
       clearTimeout(timeoutIdRef.current);
@@ -77,9 +80,15 @@ function App() {
     timeoutIdRef.current = setTimeout(() => setWindowHeight(window.innerHeight), 500)
     // setWindowHeight(window.innerHeight);
   }));
-  const algorithms = {
-    bubbleSort: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
+
+  if (isSorted && swaps !== previousSwaps) {
+    setPreviousSwaps(swaps);
+  }
+
+  const sortingAlgorithms = useMemo(() => ({
+    bubble: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
       setIsPlaying(true);
+      setIsSorted(false);
       for (let i = lastI; i < arr.length; i++) {
         let swapped = false;
         for (let j = 0; j < arr.length - 1 - i; j++) {
@@ -125,12 +134,13 @@ function App() {
       }
       setIsPlaying(false);
       setCurrentNumbers([null, null]);
-      return arr;
+      setIsSorted(true);
     },
-    insertionSort:   async function insertionSort(arr, lastI = 0, lastJ = 0) {
+    insertion:   async function insertionSort(arr, lastI = 1, lastJ) {
       if (arr.length < 2) return arr;
+      setIsSorted(false);
       setIsPlaying(true);
-      for (let i = 1; i < arr.length; i++) {
+      for (let i = lastI; i < arr.length; i++) {
         for (let j = i; j > 0; j--) {
           const isPlaying = await new Promise((res) => setIsPlaying((currentPlayState) => {
             res(currentPlayState)
@@ -140,6 +150,11 @@ function App() {
             console.log('hello')
             return;
           }
+          if (lastJ) {
+            j = lastJ;
+            lastJ = null;
+          }
+          
           if (arr[j].number < arr[j - 1].number) {
             setCurrentNumbers([j - 1, j]);
             setSwaps((swaps) => swaps + 1);
@@ -151,7 +166,7 @@ function App() {
             setNumbers([...arr]);
             if (j === 0) {
               lastIndicesRef.current[0] = i + 1;
-              lastIndicesRef.current[1] = i;
+              lastIndicesRef.current[1] = i + 1;
             } else {
               lastIndicesRef.current = [i, j - 1];
             }
@@ -162,9 +177,10 @@ function App() {
       }
       setIsPlaying(false);
       setCurrentNumbers([null, null]);
+      setIsSorted(true);
     },
-  };
-
+  }), [speed]);
+  
   function handleNav(e) {
     const controls = [...e.currentTarget.children];
     const currentControlIndex = controls.indexOf(e.target);
@@ -176,7 +192,6 @@ function App() {
       e.preventDefault();
       direction = 'left';
     }
-
     
     if (direction === 'left') {
       const newIndex = (currentControlIndex - 1);
@@ -189,6 +204,13 @@ function App() {
       const newIndex = (currentControlIndex + 1);
       controls[(newIndex) % (controls.length)].focus();
     }
+  }
+
+  function resetState() {
+    lastIndicesRef.current = [null, null];
+    setSwaps(0);
+    setCurrentNumbers([0, 1]);
+    setIsSorted(false);
   }
 
   const bars = numbers.map(({number, id}, i) => {
@@ -207,10 +229,33 @@ function App() {
   })
   return (
     <>
-      <h1>Total Swaps: {swaps}</h1>
-      <Grid swaps={swaps}>
+      <h1>Current Algorithm: {algorithm[0].toUpperCase() + algorithm.slice(1)}</h1>
+      <Grid 
+        swaps={swaps}
+        previousSwaps={previousSwaps}
+      >
         {bars}
       </Grid>
+      <div className="algs">
+        <button 
+          onClick={() => {
+            resetState();
+            setAlgorithm('bubble');
+          }}
+          disabled={isPlaying}
+          >
+            Bubble
+        </button>
+        <button 
+          onClick={() => {
+            resetState();
+            setAlgorithm('insertion');
+          }}
+          disabled={isPlaying}
+        >
+          Insertion
+        </button>
+      </div>
       <div 
         className="controls"
         onKeyDown={handleNav}
@@ -219,7 +264,7 @@ function App() {
           onClick={
             () => {
               if (!isPlaying) {
-                algorithms[algorithm](numbers, lastI, lastJ);
+                sortingAlgorithms[algorithm](numbers, lastI, lastJ);
               } else {
                 setIsPlaying(false);
               }
@@ -231,10 +276,8 @@ function App() {
         </button>
         <button 
           onClick={
-            (e) => {
-              lastIndicesRef.current = [0, 0];
-              setSwaps(0);
-              setCurrentNumbers([0, 1]);
+            () => {
+              resetState();
               setNumbers(new Array(+length).fill(null).map(createRandomNumberObject));
               playButton.focus();
             }
@@ -246,15 +289,14 @@ function App() {
         <button 
           onClick={
             () => {
-              lastIndicesRef.current = [0, 0];
-              setSwaps(0);
-              setCurrentNumbers([0, 1]);
+              resetState();
               setNumbers([...numbers].reverse());
+              setIsSorted(false);
               playButton.focus();
             }
           }
           disabled={isPlaying}
-        >
+          >
           reverse
         </button>
         <select 
