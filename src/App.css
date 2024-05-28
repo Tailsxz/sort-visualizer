@@ -26,7 +26,7 @@ body {
   padding-block-start: 2rem;
   margin-block-start: .5rem;
   margin-inline: auto;
-  width: min(100%, 800px);
+  width: min(90%, 800px);
   height: min(70vh, 700px);
   background: #fff;
   border-radius: 4px
