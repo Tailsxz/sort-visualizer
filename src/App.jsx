@@ -56,8 +56,8 @@ const COLORS = [
 const initialNums = generateRandomNumbers(10);
 function App() {
   const [algorithm, setAlgorithm] = useState("insertion");
-  const [numbers, setNumbers] = useState(initialNums);
-  const [initialNumbers, setInitialNumbers] = useState(initialNums);
+  const [numbers, setNumbers] = useState([...initialNums]);
+  const [initialNumbers, setInitialNumbers] = useState([...initialNums]);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
