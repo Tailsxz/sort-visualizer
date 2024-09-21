@@ -14,13 +14,15 @@ const currentNumsVariant = {
   },
 };
 
-let randomNumbers = new Array(10).fill(null).map(createRandomNumberObject);
-
 function createRandomNumberObject() {
   return {
     number: Math.ceil(Math.random() * 100),
     id: nanoid(),
   };
+}
+
+function generateRandomNumbers(amount = 10) {
+  return new Array(amount).fill(null).map(createRandomNumberObject);
 }
 
 function getColor(number, colors) {
@@ -29,7 +31,6 @@ function getColor(number, colors) {
   ];
 }
 
-// const COLORS = ['#1F0318', '#FFC43D', '#EF476F', '#72E1D1', '#3777FF', '#DC602E', '#B118C8', '#DE6C83', '#D1345B', '#C42021'];
 const COLORS = [
   "#FFF900",
   "#FFC43D",
@@ -47,10 +48,8 @@ const COLORS = [
 
 function App() {
   const [algorithm, setAlgorithm] = useState("insertion");
-  const [numbers, setNumbers] = useState(() => randomNumbers);
-  const [initialNumbers, setInitialNumbers] = useState(() => [
-    ...randomNumbers,
-  ]);
+  const [numbers, setNumbers] = useState(() => generateRandomNumbers(10));
+  const [initialNumbers, setInitialNumbers] = useState(numbers);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
@@ -279,9 +278,7 @@ function App() {
         </button>
         <button
           onClick={() => {
-            let randomNumbers = new Array(+length)
-              .fill(null)
-              .map(createRandomNumberObject);
+            let randomNumbers = generateRandomNumbers(+length);
             resetGridState();
             setInitialNumbers([...randomNumbers]);
             setNumbers(randomNumbers);
