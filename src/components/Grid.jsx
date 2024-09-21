@@ -8,7 +8,6 @@ const Grid = ({
   children,
   ...props
 }) => {
-  console.log(totalIterations, previousTotalIterations);
   return (
     <div className="grid" {...props}>
       <div className="swaps">
