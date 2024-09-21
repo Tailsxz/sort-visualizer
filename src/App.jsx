@@ -67,9 +67,9 @@ function App() {
   const [iterations, setIterations] = useState(0);
   const [previousIterations, setPreviousIterations] = useState(0);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
   const timeoutIdRef = useRef(null);
-  const lastIndicesRef = useRef([null, null]);
+  const lastIndicesRef = useRef([]);
+  const lastIterationsRef = useRef(null);
   const playButtonRef = useRef();
   const {
     current: [lastI, lastJ],
@@ -91,12 +91,23 @@ function App() {
 
   const sortingAlgorithms = useMemo(
     () => ({
-      bubble: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
+      bubble: async function bubbleSort(
+        arr,
+        lastI = 0,
+        lastJ = 0,
+        lastIterations = null,
+      ) {
         setIsPlaying(true);
+
         let iterations = 0;
+        if (lastIterations != null) {
+          iterations = lastIterations;
+        }
+
         for (let i = lastI; i < arr.length; i++) {
           let swapped = false;
-          for (let j = 0; j < arr.length - 1 - i; j++) {
+          const lastUnsortedElementIndex = arr.length - 2 - i;
+          for (let j = 0; j <= lastUnsortedElementIndex; j++) {
             if (lastJ) {
               j = lastJ;
               lastJ = 0;
@@ -112,6 +123,8 @@ function App() {
               return;
             }
 
+            lastIterationsRef.current = iterations;
+            iterations++;
             if (arr[j].number > arr[j + 1].number) {
               setCurrentNumbers([j, j + 1]);
               setSwaps((swaps) => swaps + 1);
@@ -128,13 +141,14 @@ function App() {
               swapped = true;
             }
 
-            if (j >= arr.length - 2 - i) {
-              lastIndicesRef.current[1] = 0;
+            if (j == lastUnsortedElementIndex) {
+              console.log("before reset", i, j);
+              console.log("resetting!!", i + 1, 0);
               lastIndicesRef.current[0] = i + 1;
+              lastIndicesRef.current[1] = 0;
             } else {
               lastIndicesRef.current = [i, j + 1];
             }
-            iterations++;
           }
 
           if (!swapped && lastJ === false) {
@@ -143,15 +157,29 @@ function App() {
           }
         }
         setIterations(iterations);
-        setIsPlaying(false);
+        lastIterationsRef.current = null;
         setCurrentNumbers([null, null]);
+        setIsPlaying(false);
       },
-      insertion: async function insertionSort(arr, lastI = 1, lastJ) {
+      insertion: async function insertionSort(
+        arr,
+        lastI = 1,
+        lastJ,
+        lastIterations = null,
+      ) {
         if (arr.length < 2) return arr;
         let iterations = 0;
+        if (lastIterations != null) {
+          console.log("passed in lastIterations", lastIterations);
+          iterations = lastIterations;
+        }
         setIsPlaying(true);
         for (let i = lastI; i < arr.length; i++) {
           for (let j = i; j > 0; j--) {
+            if (lastJ) {
+              j = lastJ;
+              lastJ = null;
+            }
             const isPlaying = await new Promise((res) =>
               setIsPlaying((currentPlayState) => {
                 res(currentPlayState);
@@ -161,12 +189,8 @@ function App() {
             if (!isPlaying) {
               return;
             }
-            if (lastJ) {
-              j = lastJ;
-              lastJ = null;
-            }
             iterations++;
-
+            lastIterationsRef.current = iterations;
             if (arr[j].number < arr[j - 1].number) {
               setCurrentNumbers([j - 1, j]);
               setSwaps((swaps) => swaps + 1);
@@ -176,10 +200,13 @@ function App() {
                 setTimeout(() => res(null), (1 / speed) * 500);
               });
               setNumbers([...arr]);
-              if (j === 0) {
+
+              const isLastElement = j === 1;
+              const isNotLastRow = i !== arr.length - 1;
+              if (isLastElement && isNotLastRow) {
                 lastIndicesRef.current[0] = i + 1;
                 lastIndicesRef.current[1] = i + 1;
-              } else {
+              } else if (!isLastElement) {
                 lastIndicesRef.current = [i, j - 1];
               }
             } else {
@@ -187,9 +214,10 @@ function App() {
             }
           }
         }
+        lastIterationsRef.current = null;
         setIterations(iterations);
-        setIsPlaying(false);
         setCurrentNumbers([null, null]);
+        setIsPlaying(false);
       },
     }),
     [speed],
@@ -223,6 +251,7 @@ function App() {
     }
 
     lastIndicesRef.current = [null, null];
+    lastIterationsRef.current = null;
     setIterations(0);
     setSwaps(0);
     setCurrentNumbers([0, 1]);
