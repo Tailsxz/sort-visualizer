@@ -53,10 +53,11 @@ const COLORS = [
 
 //#TODO, when done sorting, display sorted icon(checkmark?) and disable the play button.
 
+const initialNums = generateRandomNumbers(10);
 function App() {
   const [algorithm, setAlgorithm] = useState("insertion");
-  const [numbers, setNumbers] = useState(() => generateRandomNumbers(10));
-  const [initialNumbers, setInitialNumbers] = useState(numbers);
+  const [numbers, setNumbers] = useState(initialNums);
+  const [initialNumbers, setInitialNumbers] = useState(initialNums);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
