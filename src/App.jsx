@@ -24,7 +24,9 @@ function createRandomNumberObject() {
 }
 
 function getColor(number, colors) {
-  return colors[Math.ceil((number / 100) * 10 + 0.1) - 1];
+  return colors[
+    Math.min(Math.ceil(((number + 1) / 100) * 10) - 1, colors.length - 1)
+  ];
 }
 
 // const COLORS = ['#1F0318', '#FFC43D', '#EF476F', '#72E1D1', '#3777FF', '#DC602E', '#B118C8', '#DE6C83', '#D1345B', '#C42021'];
@@ -216,7 +218,7 @@ function App() {
       <Bar
         style={{
           height: (number * windowHeight) / 190,
-          backgroundColor: getColor(number),
+          backgroundColor: getColor(number, COLORS),
           width: `${280 / numbers.length}px`,
         }}
         {...(currentNumbers?.includes(i) && { animate: currentNumsVariant })}
