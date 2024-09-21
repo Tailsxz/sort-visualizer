@@ -63,6 +63,8 @@ function App() {
   const [speed, setSpeed] = useState(1);
   const [swaps, setSwaps] = useState(0);
   const [previousSwaps, setPreviousSwaps] = useState(0);
+  const [iterations, setIterations] = useState(0);
+  const [previousIterations, setPreviousIterations] = useState(0);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   const timeoutIdRef = useRef(null);
@@ -90,6 +92,7 @@ function App() {
     () => ({
       bubble: async function bubbleSort(arr, lastI = 0, lastJ = 0) {
         setIsPlaying(true);
+        let iterations = 0;
         for (let i = lastI; i < arr.length; i++) {
           let swapped = false;
           for (let j = 0; j < arr.length - 1 - i; j++) {
@@ -97,6 +100,7 @@ function App() {
               j = lastJ;
               lastJ = 0;
             }
+
             const isPlaying = await new Promise((res) =>
               setIsPlaying((currentPlayState) => {
                 res(currentPlayState);
@@ -106,6 +110,7 @@ function App() {
             if (!isPlaying) {
               return;
             }
+
             if (arr[j].number > arr[j + 1].number) {
               setCurrentNumbers([j, j + 1]);
               setSwaps((swaps) => swaps + 1);
@@ -128,6 +133,7 @@ function App() {
             } else {
               lastIndicesRef.current = [i, j + 1];
             }
+            iterations++;
           }
 
           if (!swapped && lastJ === false) {
@@ -135,11 +141,13 @@ function App() {
             break;
           }
         }
+        setIterations(iterations);
         setIsPlaying(false);
         setCurrentNumbers([null, null]);
       },
       insertion: async function insertionSort(arr, lastI = 1, lastJ) {
         if (arr.length < 2) return arr;
+        let iterations = 0;
         setIsPlaying(true);
         for (let i = lastI; i < arr.length; i++) {
           for (let j = i; j > 0; j--) {
@@ -156,6 +164,7 @@ function App() {
               j = lastJ;
               lastJ = null;
             }
+            iterations++;
 
             if (arr[j].number < arr[j - 1].number) {
               setCurrentNumbers([j - 1, j]);
@@ -177,6 +186,7 @@ function App() {
             }
           }
         }
+        setIterations(iterations);
         setIsPlaying(false);
         setCurrentNumbers([null, null]);
       },
@@ -206,7 +216,13 @@ function App() {
       console.log("setting previous to", swaps);
       setPreviousSwaps(swaps);
     }
+    if (iterations > 0) {
+      console.log("setting previous to", iterations);
+      setPreviousIterations(iterations);
+    }
+
     lastIndicesRef.current = [null, null];
+    setIterations(0);
     setSwaps(0);
     setCurrentNumbers([0, 1]);
   }
@@ -230,7 +246,12 @@ function App() {
       <h1>
         Current Algorithm: {algorithm[0].toUpperCase() + algorithm.slice(1)}
       </h1>
-      <Grid swaps={swaps} previousSwaps={previousSwaps}>
+      <Grid
+        swaps={swaps}
+        previousSwaps={previousSwaps}
+        totalIterations={iterations}
+        previousTotalIterations={previousIterations}
+      >
         {bars}
       </Grid>
       <div className="algs">
