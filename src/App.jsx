@@ -6,6 +6,8 @@ import PlayIcon from "./components/PlayIcon.jsx";
 import PauseIcon from "./components/PauseIcon.jsx";
 import "./App.css";
 
+const LEFT_KEYS = new Set(["ArrowRight", "d", "l"]);
+const RIGHT_KEYS = new Set(["ArrowLeft", "a", "h"]);
 const currentNumsVariant = {
   outline: "4px solid aquamarine",
   scale: 1.1,
@@ -29,6 +31,11 @@ function getColor(number, colors) {
   return colors[
     Math.min(Math.ceil(((number + 1) / 100) * 10) - 1, colors.length - 1)
   ];
+}
+
+function properMod(dividend, divisor) {
+  console.log(((dividend % divisor) + divisor) % divisor);
+  return ((dividend % divisor) + divisor) % divisor;
 }
 
 const COLORS = [
@@ -181,25 +188,17 @@ function App() {
     const controls = [...e.currentTarget.children];
     const currentControlIndex = controls.indexOf(e.target);
     let direction;
-    if (e.key === "ArrowRight" || e.key === "d") {
-      e.preventDefault();
-      direction = "right";
-    } else if (e.key === "ArrowLeft" || e.key === "a") {
-      e.preventDefault();
-      direction = "left";
-    }
 
-    if (direction === "left") {
-      const newIndex = currentControlIndex - 1;
-      if (newIndex < 0) {
-        controls[controls.length + newIndex].focus();
-      } else {
-        controls[newIndex].focus();
-      }
-    } else if (direction === "right") {
-      const newIndex = currentControlIndex + 1;
-      controls[newIndex % controls.length].focus();
-    }
+    if (RIGHT_KEYS.has(e.key)) {
+      e.preventDefault();
+      direction = 1;
+    } else if (LEFT_KEYS.has(e.key)) {
+      e.preventDefault();
+      direction = -1;
+    } else return;
+
+    const newIndex = currentControlIndex + direction;
+    controls[properMod(newIndex, controls.length)].focus();
   }
 
   function resetGridState() {
