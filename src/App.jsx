@@ -67,10 +67,13 @@ function App() {
   const [iterations, setIterations] = useState(0);
   const [previousIterations, setPreviousIterations] = useState(0);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [isSorted, setIsSorted] = useState(false);
+
   const timeoutIdRef = useRef(null);
   const lastIndicesRef = useRef([]);
   const lastIterationsRef = useRef(null);
   const playButtonRef = useRef();
+  const resetButtonRef = useRef();
   const {
     current: [lastI, lastJ],
   } = lastIndicesRef;
@@ -160,6 +163,8 @@ function App() {
         lastIterationsRef.current = null;
         setCurrentNumbers([null, null]);
         setIsPlaying(false);
+        setIsSorted(true);
+        setTimeout(() => resetButtonRef.current.focus(), 50);
       },
       insertion: async function insertionSort(
         arr,
@@ -218,6 +223,8 @@ function App() {
         setIterations(iterations);
         setCurrentNumbers([null, null]);
         setIsPlaying(false);
+        setIsSorted(true);
+        setTimeout(() => resetButtonRef.current.focus(), 50);
       },
     }),
     [speed],
@@ -255,6 +262,7 @@ function App() {
     setIterations(0);
     setSwaps(0);
     setCurrentNumbers([0, 1]);
+    setIsSorted(false);
   }
 
   function handlePlayStateChange() {
@@ -327,9 +335,10 @@ function App() {
               handlePlayStateChange();
             }
           }}
+          disabled={isSorted}
           ref={playButtonRef}
         >
-          {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          {isSorted ? <div>✔</div> : isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
         <button
           onClick={() => {
@@ -337,6 +346,7 @@ function App() {
             resetGridState();
           }}
           disabled={isPlaying}
+          ref={resetButtonRef}
         >
           Reset
         </button>
