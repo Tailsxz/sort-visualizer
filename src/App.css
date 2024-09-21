@@ -64,17 +64,19 @@ body {
   font-weight: 700;
 }
 
-.icon path{
+.icon path {
   stroke: white;
 }
 
-select, button {
+select,
+button {
   display: flex;
   align-items: center;
   height: 50px;
 }
 
-.controls, .algs {
+.controls,
+.algs {
   display: flex;
   gap: 1rem;
   justify-content: center;
