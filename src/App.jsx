@@ -34,7 +34,6 @@ function getColor(number, colors) {
 }
 
 function properMod(dividend, divisor) {
-  console.log(((dividend % divisor) + divisor) % divisor);
   return ((dividend % divisor) + divisor) % divisor;
 }
 
@@ -56,12 +55,12 @@ const COLORS = [
 const initialNums = generateRandomNumbers(10);
 function App() {
   const [algorithm, setAlgorithm] = useState("insertion");
-  const [numbers, setNumbers] = useState([...initialNums]);
+  const [numbers, setNumbers] = useState(initialNums);
   const [initialNumbers, setInitialNumbers] = useState([...initialNums]);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(3);
   const [swaps, setSwaps] = useState(0);
   const [previousSwaps, setPreviousSwaps] = useState(0);
   const [iterations, setIterations] = useState(0);
@@ -70,7 +69,7 @@ function App() {
   const [isSorted, setIsSorted] = useState(false);
 
   const timeoutIdRef = useRef(null);
-  const lastIndicesRef = useRef([]);
+  const lastIndicesRef = useRef([null, null]);
   const lastIterationsRef = useRef(null);
   const playButtonRef = useRef();
   const resetButtonRef = useRef();
@@ -145,8 +144,6 @@ function App() {
             }
 
             if (j == lastUnsortedElementIndex) {
-              console.log("before reset", i, j);
-              console.log("resetting!!", i + 1, 0);
               lastIndicesRef.current[0] = i + 1;
               lastIndicesRef.current[1] = 0;
             } else {
@@ -155,7 +152,6 @@ function App() {
           }
 
           if (!swapped && lastJ === false) {
-            console.log("breaking out of the loop!");
             break;
           }
         }
@@ -175,7 +171,6 @@ function App() {
         if (arr.length < 2) return arr;
         let iterations = 0;
         if (lastIterations != null) {
-          console.log("passed in lastIterations", lastIterations);
           iterations = lastIterations;
         }
         setIsPlaying(true);
@@ -249,11 +244,9 @@ function App() {
 
   function resetGridState() {
     if (swaps > 0) {
-      console.log("setting previous to", swaps);
       setPreviousSwaps(swaps);
     }
     if (iterations > 0) {
-      console.log("setting previous to", iterations);
       setPreviousIterations(iterations);
     }
 
