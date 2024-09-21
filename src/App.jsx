@@ -289,11 +289,12 @@ function App() {
       </div>
       <div className="controls" onKeyDown={handleNav}>
         <button
-          onClick={() => {
-            if (!isPlaying) {
-              sortingAlgorithms[algorithm](numbers, lastI, lastJ);
-            } else {
-              setIsPlaying(false);
+          onClick={handlePlayStateChange}
+          onKeyDown={(e) => {
+            e.preventDefault();
+            if (e.repeat) return;
+            if (e.key == "Enter" || e.key == " ") {
+              handlePlayStateChange();
             }
           }}
           ref={playButtonRef}
