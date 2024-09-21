@@ -23,30 +23,8 @@ function createRandomNumberObject() {
   };
 }
 
-function getColor(number) {
-  let color;
-  if (number < 10) {
-    color = COLORS[0];
-  } else if (number < 20) {
-    color = COLORS[1];
-  } else if (number < 30) {
-    color = COLORS[2];
-  } else if (number < 40) {
-    color = COLORS[3];
-  } else if (number < 50) {
-    color = COLORS[4];
-  } else if (number < 60) {
-    color = COLORS[5];
-  } else if (number < 70) {
-    color = COLORS[6];
-  } else if (number < 80) {
-    color = COLORS[7];
-  } else if (number < 90) {
-    color = COLORS[8];
-  } else {
-    color = COLORS[9];
-  }
-  return color;
+function getColor(number, colors) {
+  return colors[Math.ceil((number / 100) * 10 + 0.1) - 1];
 }
 
 // const COLORS = ['#1F0318', '#FFC43D', '#EF476F', '#72E1D1', '#3777FF', '#DC602E', '#B118C8', '#DE6C83', '#D1345B', '#C42021'];
