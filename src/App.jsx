@@ -151,7 +151,7 @@ function App() {
             }
           }
 
-          if (!swapped && lastJ === false) {
+          if (!swapped) {
             break;
           }
         }
@@ -255,7 +255,6 @@ function App() {
     setIterations(0);
     setSwaps(0);
     setCurrentNumbers([0, 1]);
-    setIsSorted(false);
   }
 
   function handlePlayStateChange() {
@@ -336,6 +335,7 @@ function App() {
         <button
           onClick={() => {
             setNumbers([...initialNumbers]);
+            setIsSorted(false);
             resetGridState();
           }}
           disabled={isPlaying}
@@ -347,18 +347,20 @@ function App() {
           onClick={() => {
             let randomNumbers = generateRandomNumbers(+length);
             resetGridState();
+            setIsSorted(false);
             setInitialNumbers([...randomNumbers]);
             setNumbers(randomNumbers);
             playButton.focus();
           }}
           disabled={isPlaying}
         >
-          randomize
+          Randomize
         </button>
         <button
           onClick={() => {
             const reversedNumbers = [...numbers].reverse();
             resetGridState();
+            setIsSorted(false);
             setInitialNumbers([...reversedNumbers]);
             setNumbers(reversedNumbers);
 
@@ -366,7 +368,7 @@ function App() {
           }}
           disabled={isPlaying}
         >
-          reverse
+          Reverse
         </button>
         <select
           name="speed"
