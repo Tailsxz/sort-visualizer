@@ -227,6 +227,19 @@ function App() {
     setCurrentNumbers([0, 1]);
   }
 
+  function handlePlayStateChange() {
+    if (!isPlaying) {
+      sortingAlgorithms[algorithm](
+        numbers,
+        lastI || 0,
+        lastJ,
+        lastIterationsRef.current,
+      );
+    } else {
+      setIsPlaying(false);
+    }
+  }
+
   const bars = numbers.map(({ number, id }, i) => {
     return (
       <Bar
