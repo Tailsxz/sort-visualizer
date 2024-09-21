@@ -6,8 +6,8 @@ import PlayIcon from "./components/PlayIcon.jsx";
 import PauseIcon from "./components/PauseIcon.jsx";
 import "./App.css";
 
-const LEFT_KEYS = new Set(["ArrowRight", "d", "l"]);
-const RIGHT_KEYS = new Set(["ArrowLeft", "a", "h"]);
+const RIGHT_KEYS = new Set(["ArrowRight", "d", "l"]);
+const LEFT_KEYS = new Set(["ArrowLeft", "a", "h"]);
 const currentNumsVariant = {
   outline: "4px solid aquamarine",
   scale: 1.1,
