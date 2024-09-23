@@ -16,6 +16,17 @@ body {
   box-sizing: border-box;
 }
 
+.primaryContainer {
+  display: flex;
+  gap: 2rem;
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+}
+
+.gridContainer {
+  flex-basis: 80%;
+}
+
 .grid {
   position: relative;
   flex-shrink: 0;
