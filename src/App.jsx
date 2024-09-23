@@ -66,7 +66,10 @@ function App() {
   const [previousSwaps, setPreviousSwaps] = useState(0);
   const [iterations, setIterations] = useState(0);
   const [previousIterations, setPreviousIterations] = useState(0);
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [windowDimensions, setWindowDimensions] = useState([
+    window.innerWidth,
+    window.innerHeight,
+  ]);
   const [isSorted, setIsSorted] = useState(false);
 
   const timeoutIdRef = useRef(null);
@@ -78,6 +81,7 @@ function App() {
     current: [lastI, lastJ],
   } = lastIndicesRef;
   const { current: playButton } = playButtonRef;
+  const [windowWidth, windowHeight] = windowDimensions;
 
   useEffect(() =>
     window.addEventListener("resize", () => {
@@ -85,10 +89,9 @@ function App() {
         clearTimeout(timeoutIdRef.current);
       }
       timeoutIdRef.current = setTimeout(
-        () => setWindowHeight(window.innerHeight),
+        () => setWindowDimensions([window.innerWidth, window.innerHeight]),
         500,
       );
-      // setWindowHeight(window.innerHeight);
     }),
   );
 
@@ -288,7 +291,7 @@ function App() {
         style={{
           height: (number * windowHeight) / 190,
           backgroundColor: getColor(number, COLORS),
-          width: `${280 / numbers.length}px`,
+          width: `${(windowWidth > 1200 ? 1200 : windowWidth) / numbers.length - 40}px`,
           ...(sortedNumbers.has(numberObject)
             ? {
                 outline: "4px solid #33FF00",
