@@ -8,6 +8,7 @@ import "./App.css";
 
 const RIGHT_KEYS = new Set(["ArrowRight", "d", "l"]);
 const LEFT_KEYS = new Set(["ArrowLeft", "a", "h"]);
+
 const currentNumsVariant = {
   outline: "4px solid aquamarine",
   scale: 1.1,
