@@ -177,12 +177,15 @@ function App() {
           iterations = lastIterations;
         }
         setIsPlaying(true);
+
+        //With insertion sort, both the initial two numbers will always be the first sorted group, once the first swap happens. Since we're highlighting the pair in blue as the initial current numbers, we can just add them to the sorted group immediately.
         setSortedNumbers((currentSortedNumbers) => {
           currentSortedNumbers.add(arr[0]);
           currentSortedNumbers.add(arr[1]);
           return new Set(currentSortedNumbers);
         });
         for (let i = lastI; i < arr.length; i++) {
+          //Otherwise, the element our i is currently at, will always be the element to be added to the sorted group.
           setSortedNumbers((currentSortedNumbers) => {
             currentSortedNumbers.add(arr[i]);
             return new Set(currentSortedNumbers);
@@ -284,14 +287,13 @@ function App() {
   }
 
   const bars = numbers.map((numberObject, i) => {
-    console.log(sortedNumbers.has(numberObject));
     const { number, id } = numberObject;
     return (
       <Bar
         style={{
           height: (number * windowHeight) / 190,
           backgroundColor: getColor(number, COLORS),
-          width: `${(windowWidth > 1200 ? 1200 : windowWidth) / numbers.length - 40}px`,
+          width: `${(windowWidth > 1200 ? 600 : windowWidth / 2) / numbers.length}px`,
           ...(sortedNumbers.has(numberObject)
             ? {
                 outline: "4px solid #33FF00",
