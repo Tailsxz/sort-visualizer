@@ -7,7 +7,7 @@
 
   color-scheme: light dark;
   color: var(--clr-neutral-400);
-  background-color: #242424;
+  background-color: var(--clr-neutral-400);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
