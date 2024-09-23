@@ -291,9 +291,9 @@ function App() {
     return (
       <Bar
         style={{
-          height: (number * windowHeight) / 190,
+          height: number * (windowHeight / 290),
           backgroundColor: getColor(number, COLORS),
-          width: `${(windowWidth > 1200 ? 600 : windowWidth / 2) / numbers.length}px`,
+          width: `${(windowWidth > 1200 ? 600 : windowWidth / 3) / numbers.length}px`,
           ...(sortedNumbers.has(numberObject)
             ? {
                 outline: "4px solid #33FF00",
