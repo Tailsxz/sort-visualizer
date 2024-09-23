@@ -94,3 +94,7 @@ button {
   align-items: center;
   margin-block: 2rem;
 }
+
+.active {
+  border: 6px solid #00FF55;
+}
