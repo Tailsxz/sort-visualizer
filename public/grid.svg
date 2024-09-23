@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <g paint-order="stroke fill markers">
+    <rect width="9.4" height="20" x="11.3" y="12" fill="#ef4760" rx="0" ry="0"/>
+    <rect width="9.4" height="10" y="22" fill="#fff900" rx="0" ry="0"/>
+    <rect width="9.4" height="30" x="22.6" y="2" fill="#6c04f0" rx="0" ry="0"/>
+  </g>
+</svg>

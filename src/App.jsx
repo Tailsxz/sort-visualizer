@@ -333,7 +333,15 @@ function App() {
           disabled={isSorted}
           ref={playButtonRef}
         >
-          {isSorted ? <div>✔</div> : isPlaying ? <PauseIcon /> : <PlayIcon />}
+          {isSorted ? (
+            <div style={{ width: "1.5rem", height: "1.5rem", color: "green" }}>
+              ✔
+            </div>
+          ) : isPlaying ? (
+            <PauseIcon />
+          ) : (
+            <PlayIcon />
+          )}
         </button>
         <button
           onClick={() => {
