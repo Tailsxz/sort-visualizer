@@ -58,6 +58,7 @@ function App() {
   const [numbers, setNumbers] = useState(initialNums);
   const [initialNumbers, setInitialNumbers] = useState([...initialNums]);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
+  const [sortedNumbers, setSortedNumbers] = useState(new Set());
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
   const [speed, setSpeed] = useState(3);
@@ -140,13 +141,18 @@ function App() {
                 setTimeout(() => res(null), (1 / speed) * 500);
               });
             }
-
-            // if (j == lastUnsortedElementIndex) {
-            //   lastIndicesRef.current[0] = i + 1;
-            //   lastIndicesRef.current[1] = 0;
-            // } else {
-            //   lastIndicesRef.current = [i, j + 1];
-            // }
+            if (lastUnsortedElementIndex == 1) {
+              setSortedNumbers((currentSortedNumbers) => {
+                currentSortedNumbers.add(arr[j + 1]);
+                currentSortedNumbers.add(arr[j]);
+                return new Set(currentSortedNumbers);
+              });
+            } else if (j == lastUnsortedElementIndex) {
+              setSortedNumbers((currentSortedNumbers) => {
+                currentSortedNumbers.add(arr[j + 1]);
+                return new Set(currentSortedNumbers);
+              });
+            }
           }
         }
         setIterations(iterations);
@@ -168,7 +174,16 @@ function App() {
           iterations = lastIterations;
         }
         setIsPlaying(true);
+        setSortedNumbers((currentSortedNumbers) => {
+          currentSortedNumbers.add(arr[0]);
+          currentSortedNumbers.add(arr[1]);
+          return new Set(currentSortedNumbers);
+        });
         for (let i = lastI; i < arr.length; i++) {
+          setSortedNumbers((currentSortedNumbers) => {
+            currentSortedNumbers.add(arr[i]);
+            return new Set(currentSortedNumbers);
+          });
           for (let j = i; j > 0; j--) {
             if (lastJ) {
               j = lastJ;
@@ -265,13 +280,21 @@ function App() {
     }
   }
 
-  const bars = numbers.map(({ number, id }, i) => {
+  const bars = numbers.map((numberObject, i) => {
+    console.log(sortedNumbers.has(numberObject));
+    const { number, id } = numberObject;
     return (
       <Bar
         style={{
           height: (number * windowHeight) / 190,
           backgroundColor: getColor(number, COLORS),
           width: `${280 / numbers.length}px`,
+          ...(sortedNumbers.has(numberObject)
+            ? {
+                outline: "4px solid #33FF00",
+              }
+            : {}),
+          transition: "outline 100ms ease",
         }}
         {...(currentNumbers?.includes(i) && { animate: currentNumsVariant })}
         number={number}
@@ -339,6 +362,7 @@ function App() {
           onClick={() => {
             setNumbers([...initialNumbers]);
             setIsSorted(false);
+            setSortedNumbers(new Set());
             resetGridState();
           }}
           disabled={isPlaying}
@@ -351,6 +375,7 @@ function App() {
             let randomNumbers = generateRandomNumbers(+length);
             resetGridState();
             setIsSorted(false);
+            setSortedNumbers(new Set());
             setInitialNumbers([...randomNumbers]);
             setNumbers(randomNumbers);
             playButton.focus();
@@ -364,6 +389,7 @@ function App() {
             const reversedNumbers = [...numbers].reverse();
             resetGridState();
             setIsSorted(false);
+            setSortedNumbers(new Set());
             setInitialNumbers([...reversedNumbers]);
             setNumbers(reversedNumbers);
 
