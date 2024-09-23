@@ -71,7 +71,7 @@ function App() {
   const timeoutIdRef = useRef(null);
   const lastIndicesRef = useRef([null, null]);
   const lastIterationsRef = useRef(null);
-  const playButtonRef = useRef();
+  const playButtonRef = useRef(null);
   const resetButtonRef = useRef();
   const {
     current: [lastI, lastJ],
@@ -101,22 +101,19 @@ function App() {
       ) {
         setIsPlaying(true);
 
-        let isResumed = false;
         let iterations = 0;
         if (lastIterations != null) {
           iterations = lastIterations;
         }
-        if (lastI > 0 || lastJ > 0) isResumed = true;
-
         for (let i = lastI; i < arr.length; i++) {
-          let swapped = false;
           const lastUnsortedElementIndex = arr.length - 2 - i;
           for (let j = 0; j <= lastUnsortedElementIndex; j++) {
             if (lastJ) {
               j = lastJ;
-              lastJ = 0;
+              lastJ = null;
             }
-
+            lastIndicesRef.current[0] = i;
+            lastIndicesRef.current[1] = j;
             const isPlaying = await new Promise((res) =>
               setIsPlaying((currentPlayState) => {
                 res(currentPlayState);
@@ -142,20 +139,14 @@ function App() {
               await new Promise((res) => {
                 setTimeout(() => res(null), (1 / speed) * 500);
               });
-              swapped = true;
-              isResumed = false;
             }
 
-            if (j == lastUnsortedElementIndex) {
-              lastIndicesRef.current[0] = i + 1;
-              lastIndicesRef.current[1] = 0;
-            } else {
-              lastIndicesRef.current = [i, j + 1];
-            }
-          }
-
-          if (!swapped && !isResumed) {
-            break;
+            // if (j == lastUnsortedElementIndex) {
+            //   lastIndicesRef.current[0] = i + 1;
+            //   lastIndicesRef.current[1] = 0;
+            // } else {
+            //   lastIndicesRef.current = [i, j + 1];
+            // }
           }
         }
         setIterations(iterations);
@@ -183,6 +174,7 @@ function App() {
               j = lastJ;
               lastJ = null;
             }
+
             const isPlaying = await new Promise((res) =>
               setIsPlaying((currentPlayState) => {
                 res(currentPlayState);
