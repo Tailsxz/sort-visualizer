@@ -101,10 +101,12 @@ function App() {
       ) {
         setIsPlaying(true);
 
+        let isResumed = false;
         let iterations = 0;
         if (lastIterations != null) {
           iterations = lastIterations;
         }
+        if (lastI > 0 || lastJ > 0) isResumed = true;
 
         for (let i = lastI; i < arr.length; i++) {
           let swapped = false;
@@ -141,6 +143,7 @@ function App() {
                 setTimeout(() => res(null), (1 / speed) * 500);
               });
               swapped = true;
+              isResumed = false;
             }
 
             if (j == lastUnsortedElementIndex) {
@@ -151,7 +154,7 @@ function App() {
             }
           }
 
-          if (!swapped) {
+          if (!swapped && !isResumed) {
             break;
           }
         }
