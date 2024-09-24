@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
-const Bar = ({ number, ...props }) => {
+const Bar = ({ number, className = "", ...props }) => {
   return (
-    <motion.div className="bar" layout {...props}>
+    <motion.div className={`bar ${className}`} layout {...props}>
       <motion.div layout className="number">
         {number}
       </motion.div>
@@ -13,6 +13,7 @@ const Bar = ({ number, ...props }) => {
 
 Bar.propTypes = {
   number: PropTypes.number.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default Bar;
