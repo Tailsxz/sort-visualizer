@@ -77,6 +77,7 @@ function App() {
   const lastIndicesRef = useRef([null, null]);
   const lastIterationsRef = useRef(null);
   const playButtonRef = useRef(null);
+  const gridRef = useRef(null);
   const {
     current: [lastI, lastJ],
   } = lastIndicesRef;
@@ -273,7 +274,11 @@ function App() {
 
   function handlePlayStateChange() {
     if (!isPlaying) {
-      window.scrollTo(0, 0);
+      const { offsetHeight, offsetTop } = gridRef.current;
+      window.scrollTo(
+        0,
+        Math.round(offsetTop - (window.innerHeight - offsetHeight) / 2),
+      );
       setTimeout(() => {
         sortingAlgorithms[algorithm](
           numbers,
@@ -315,6 +320,7 @@ function App() {
           previousSwaps={previousSwaps}
           totalIterations={iterations}
           previousTotalIterations={previousIterations}
+          ref={gridRef}
         >
           {bars}
         </Grid>
