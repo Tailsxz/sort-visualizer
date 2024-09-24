@@ -323,121 +323,133 @@ function App() {
       <div className="controlsContainer">
         <div className="algs">
           <label>Algorithms</label>
-          <button
-            className={algorithm == "bubble" ? "active" : ""}
-            onClick={() => {
-              resetGridState();
-              setAlgorithm("bubble");
-            }}
-            disabled={isPlaying}
-          >
-            Bubble
-          </button>
-          <button
-            className={algorithm == "insertion" ? "active" : ""}
-            onClick={() => {
-              resetGridState();
-              setAlgorithm("insertion");
-            }}
-            disabled={isPlaying}
-          >
-            Insertion
-          </button>
+          <div className="menuItemContainer">
+            <button
+              className={algorithm == "bubble" ? "active" : ""}
+              onClick={() => {
+                resetGridState();
+                setAlgorithm("bubble");
+              }}
+              disabled={isPlaying}
+            >
+              Bubble
+            </button>
+            <button
+              className={algorithm == "insertion" ? "active" : ""}
+              onClick={() => {
+                resetGridState();
+                setAlgorithm("insertion");
+              }}
+              disabled={isPlaying}
+            >
+              Insertion
+            </button>
+          </div>
         </div>
         <div className="controls" onKeyDown={handleNav}>
           <label>Controls</label>
-          <button
-            onClick={handlePlayStateChange}
-            onKeyDown={(e) => {
-              e.preventDefault();
-              if (e.repeat) return;
-              if (e.key == "Enter" || e.key == " ") {
-                handlePlayStateChange();
-              }
-            }}
-            disabled={isSorted}
-            ref={playButtonRef}
-          >
-            {isSorted ? (
-              <div
-                style={{ width: "1.5rem", height: "1.5rem", color: "green" }}
-              >
-                ✔
-              </div>
-            ) : isPlaying ? (
-              <PauseIcon />
-            ) : (
-              <PlayIcon />
-            )}
-          </button>
-          <button
-            onClick={() => {
-              setNumbers([...initialNumbers]);
-              setIsSorted(false);
-              setSortedNumbers(new Set());
-              resetGridState();
-            }}
-            disabled={isPlaying}
-            ref={resetButtonRef}
-          >
-            Reset
-          </button>
-          <button
-            onClick={() => {
-              let randomNumbers = generateRandomNumbers(+length);
-              resetGridState();
-              setIsSorted(false);
-              setSortedNumbers(new Set());
-              setInitialNumbers([...randomNumbers]);
-              setNumbers(randomNumbers);
-              playButton.focus();
-            }}
-            disabled={isPlaying}
-          >
-            Randomize
-          </button>
-          <button
-            onClick={() => {
-              const reversedNumbers = [...numbers].reverse();
-              resetGridState();
-              setIsSorted(false);
-              setSortedNumbers(new Set());
-              setInitialNumbers([...reversedNumbers]);
-              setNumbers(reversedNumbers);
+          <div className="menuItemContainer">
+            <button
+              onClick={handlePlayStateChange}
+              onKeyDown={(e) => {
+                e.preventDefault();
+                if (e.repeat) return;
+                if (e.key == "Enter" || e.key == " ") {
+                  handlePlayStateChange();
+                }
+              }}
+              disabled={isSorted}
+              ref={playButtonRef}
+            >
+              {isSorted ? (
+                <div
+                  style={{ width: "1.5rem", height: "1.5rem", color: "green" }}
+                >
+                  ✔
+                </div>
+              ) : isPlaying ? (
+                <PauseIcon />
+              ) : (
+                <PlayIcon />
+              )}
+            </button>
+            <button
+              onClick={() => {
+                setNumbers([...initialNumbers]);
+                setIsSorted(false);
+                setSortedNumbers(new Set());
+                resetGridState();
+              }}
+              disabled={isPlaying}
+              ref={resetButtonRef}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="menuItemContainer">
+            <button
+              onClick={() => {
+                let randomNumbers = generateRandomNumbers(+length);
+                resetGridState();
+                setIsSorted(false);
+                setSortedNumbers(new Set());
+                setInitialNumbers([...randomNumbers]);
+                setNumbers(randomNumbers);
+                playButton.focus();
+              }}
+              disabled={isPlaying}
+            >
+              Randomize
+            </button>
+            <button
+              onClick={() => {
+                const reversedNumbers = [...numbers].reverse();
+                resetGridState();
+                setIsSorted(false);
+                setSortedNumbers(new Set());
+                setInitialNumbers([...reversedNumbers]);
+                setNumbers(reversedNumbers);
 
-              playButton.focus();
-            }}
-            disabled={isPlaying}
-          >
-            Reverse
-          </button>
-          <label htmlFor="#speed">Speed</label>
-          <select
-            name="speed"
-            id="speed"
-            value={speed}
-            onChange={(e) => setSpeed(e.target.value)}
-          >
-            <option value="0.5">0.5x</option>
-            <option value=".75">0.75x</option>
-            <option value="1">1x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
-            <option value="3">3x</option>
-          </select>
-          <label htmlFor="#length">Length</label>
-          <select
-            name="length"
-            id="length"
-            value={length}
-            onChange={(e) => setLength(e.target.value)}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-          </select>
+                playButton.focus();
+              }}
+              disabled={isPlaying}
+            >
+              Reverse
+            </button>
+          </div>
+          <div className="menuItemContainer">
+            <div className="menuSelectItem">
+              <label htmlFor="#speed">Speed</label>
+              <select
+                name="speed"
+                id="speed"
+                value={speed}
+                onChange={(e) => setSpeed(e.target.value)}
+              >
+                <option value="0.5">0.5x</option>
+                <option value=".75">0.75x</option>
+                <option value="1">1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+                <option value="3">3x</option>
+              </select>
+            </div>
+            <div className="menuSelectItem">
+              <label htmlFor="#length">Length</label>
+              <select
+                name="length"
+                id="length"
+                value={length}
+                onChange={(e) => setLength(e.target.value)}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </main>

@@ -99,3 +99,24 @@ button {
 .active {
   border: 6px solid #00FF55;
 }
+
+@media screen and (max-width: 797px) {
+  .menuItemContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .menuItemContainer * {
+    flex-grow: 1;
+  }
+
+  .menuSelectItem {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .menuSelectItem select {
+    width: 100%;
+  }
+}
