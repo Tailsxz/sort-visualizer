@@ -368,9 +368,9 @@ function App() {
                 className="menuItem"
                 onClick={handlePlayStateChange}
                 onKeyDown={(e) => {
-                  e.preventDefault();
                   if (e.repeat) return;
                   if (e.key == "Enter" || e.key == " ") {
+                    e.preventDefault();
                     handlePlayStateChange();
                   }
                 }}
