@@ -1,10 +1,9 @@
 body {
-  display: grid;
-  place-items: center;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   min-height: 100dvh;
+  padding-block: 2rem;
   background: beige;
 }
 
@@ -25,11 +24,27 @@ body {
   justify-content: center;
   align-items: flex-end;
   gap: 2rem;
+  padding-block: 2rem;
   margin-inline: auto;
 }
 
 .gridContainer {
   flex-basis: 80%;
+  margin-block-end: 1rem;
+}
+
+.menuItemContainer {
+  display: grid;
+  gap: 1rem;
+}
+
+.menuSelectItem {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.menuSelectItem select {
+  width: 100%;
 }
 
 .grid {
@@ -45,22 +60,21 @@ body {
 }
 
 .swaps {
-  color: black;
   position: absolute;
   top: 1rem;
   left: 1rem;
   display: flex;
   flex-direction: column;
   align-items: start;
+  color: var(--clr-neutral-300);
 }
 
 .bar {
   position: relative;
   display: flex;
   justify-content: center;
-  width: 35px;
-  max-height: 100%;
   border-radius: 3px;
+  translate: 0px 2px;
   box-shadow: 0px 0px 15px -5px rgb(0 0 0 / 0.8);
   outline: 0;
 }
@@ -94,6 +108,7 @@ button {
   flex-flow: column;
   gap: 1rem;
   justify-content: center;
+  margin-block-end: 1rem;
 }
 
 .active {
@@ -104,19 +119,5 @@ button {
   .menuItemContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .menuItemContainer * {
-    flex-grow: 1;
-  }
-
-  .menuSelectItem {
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .menuSelectItem select {
-    width: 100%;
   }
 }
