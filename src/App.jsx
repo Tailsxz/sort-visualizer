@@ -319,12 +319,12 @@ function App() {
           {bars}
         </Grid>
       </div>
-      <div className="controlsContainer">
-        <div className="algs">
-          <label>Algorithms</label>
-          <div className="menuItemContainer">
+      <menu className="controlsContainer">
+        <label htmlFor="algorithms">Algorithms</label>
+        <div id="algorithms" className="subMenu">
+          <li>
             <button
-              className={algorithm == "bubble" ? "active" : ""}
+              className={`menuItem ${algorithm == "bubble" ? "active" : ""}`}
               onClick={() => {
                 resetGridState();
                 setAlgorithm("bubble");
@@ -333,8 +333,10 @@ function App() {
             >
               Bubble
             </button>
+          </li>
+          <li>
             <button
-              className={algorithm == "insertion" ? "active" : ""}
+              className={`menuItem ${algorithm == "insertion" ? "active" : ""}`}
               onClick={() => {
                 resetGridState();
                 setAlgorithm("insertion");
@@ -343,90 +345,103 @@ function App() {
             >
               Insertion
             </button>
-          </div>
+          </li>
         </div>
-        <div className="controls" onKeyDown={handleNav}>
-          <label>Controls</label>
-          <div className="menuItemContainer">
-            <button
-              onClick={handlePlayStateChange}
-              onKeyDown={(e) => {
-                e.preventDefault();
-                if (e.repeat) return;
-                if (e.key == "Enter" || e.key == " ") {
-                  handlePlayStateChange();
-                }
-              }}
-              aria-label={`${
-                isPlaying ? "Pause" : "Play"
-              } the sorting algorithm`}
-              disabled={isSorted}
-              ref={playButtonRef}
-            >
-              {isSorted ? (
-                <div
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    color: "green",
-                    textAlign: "center",
-                  }}
-                >
-                  ✔
-                </div>
-              ) : isPlaying ? (
-                <PauseIcon />
-              ) : (
-                <PlayIcon />
-              )}
-            </button>
-            <button
-              onClick={() => {
-                setNumbers([...initialNumbers]);
-                setIsSorted(false);
-                setSortedNumbers(new Set());
-                resetGridState();
-              }}
-              disabled={isPlaying}
-            >
-              Reset
-            </button>
+        <label htmlFor="controls">Controls</label>
+        <div id="controls" className="controls" onKeyDown={handleNav}>
+          <div className="subMenu">
+            <li>
+              <button
+                className="menuItem"
+                onClick={handlePlayStateChange}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                  if (e.repeat) return;
+                  if (e.key == "Enter" || e.key == " ") {
+                    handlePlayStateChange();
+                  }
+                }}
+                aria-label={`${
+                  isPlaying ? "Pause" : "Play"
+                } the sorting algorithm`}
+                disabled={isSorted}
+                ref={playButtonRef}
+              >
+                {isSorted ? (
+                  <div
+                    style={{
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      color: "green",
+                      textAlign: "center",
+                    }}
+                  >
+                    ✔
+                  </div>
+                ) : isPlaying ? (
+                  <PauseIcon />
+                ) : (
+                  <PlayIcon />
+                )}
+              </button>
+            </li>
+            <li>
+              <button
+                className="menuItem"
+                onClick={() => {
+                  setNumbers([...initialNumbers]);
+                  setIsSorted(false);
+                  setSortedNumbers(new Set());
+                  resetGridState();
+                }}
+                disabled={isPlaying}
+              >
+                Reset
+              </button>
+            </li>
           </div>
-          <div className="menuItemContainer">
-            <button
-              onClick={() => {
-                let randomNumbers = generateRandomNumbers(+length);
-                resetGridState();
-                setIsSorted(false);
-                setSortedNumbers(new Set());
-                setInitialNumbers([...randomNumbers]);
-                setNumbers(randomNumbers);
-                playButton.focus();
-              }}
-              disabled={isPlaying}
-            >
-              Randomize
-            </button>
-            <button
-              onClick={() => {
-                const reversedNumbers = [...numbers].reverse();
-                resetGridState();
-                setIsSorted(false);
-                setSortedNumbers(new Set());
-                setInitialNumbers([...reversedNumbers]);
-                setNumbers(reversedNumbers);
+          <div className="subMenu">
+            <li>
+              <button
+                className="menuItem"
+                onClick={() => {
+                  let randomNumbers = generateRandomNumbers(+length);
+                  resetGridState();
+                  setIsSorted(false);
+                  setSortedNumbers(new Set());
+                  setInitialNumbers([...randomNumbers]);
+                  setNumbers(randomNumbers);
+                  playButton.focus();
+                }}
+                disabled={isPlaying}
+              >
+                Randomize
+              </button>
+            </li>
+            <li>
+              <button
+                className="menuItem"
+                onClick={() => {
+                  const reversedNumbers = [...numbers].reverse();
+                  resetGridState();
+                  setIsSorted(false);
+                  setSortedNumbers(new Set());
+                  setInitialNumbers([...reversedNumbers]);
+                  setNumbers(reversedNumbers);
 
-                playButton.focus();
-              }}
-              disabled={isPlaying}
-            >
-              Reverse
-            </button>
+                  playButton.focus();
+                }}
+                disabled={isPlaying}
+              >
+                Reverse
+              </button>
+            </li>
           </div>
-          <div className="menuItemContainer">
-            <div className="menuSelectItem">
+          <div className="subMenu">
+            <li>
               <label htmlFor="speed">Speed</label>
               <select
+                className="menuItem"
                 name="speed"
                 id="speed"
                 value={speed}
@@ -441,10 +456,11 @@ function App() {
                 <option value="5">5x</option>
                 <option value="10">10x</option>
               </select>
-            </div>
-            <div className="menuSelectItem">
+            </li>
+            <li>
               <label htmlFor="length">Length</label>
               <select
+                className="menuItem"
                 name="length"
                 id="length"
                 value={length}
@@ -456,10 +472,10 @@ function App() {
                 <option value="100">100</option>
                 <option value="150">150</option>
               </select>
-            </div>
+            </li>
           </div>
         </div>
-      </div>
+      </menu>
     </main>
   );
 }
