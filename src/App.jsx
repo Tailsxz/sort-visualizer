@@ -77,7 +77,6 @@ function App() {
   const lastIndicesRef = useRef([null, null]);
   const lastIterationsRef = useRef(null);
   const playButtonRef = useRef(null);
-  const resetButtonRef = useRef();
   const {
     current: [lastI, lastJ],
   } = lastIndicesRef;
@@ -164,7 +163,6 @@ function App() {
         setCurrentNumbers([null, null]);
         setIsPlaying(false);
         setIsSorted(true);
-        setTimeout(() => resetButtonRef.current.focus(), 50);
       },
       insertion: async function insertionSort(
         arr,
@@ -236,7 +234,6 @@ function App() {
         setCurrentNumbers([null, null]);
         setIsPlaying(false);
         setIsSorted(true);
-        setTimeout(() => resetButtonRef.current.focus(), 50);
       },
     }),
     [speed],
@@ -292,7 +289,7 @@ function App() {
     return (
       <Bar
         style={{
-          height: number * (windowHeight / 290),
+          height: number * (windowHeight / 240),
           backgroundColor: getColor(number, COLORS),
           width: `${(windowWidth > 1200 ? 600 : windowWidth / 3) / numbers.length}px`,
           ...(sortedNumbers.has(numberObject)
@@ -381,7 +378,6 @@ function App() {
                 resetGridState();
               }}
               disabled={isPlaying}
-              ref={resetButtonRef}
             >
               Reset
             </button>
