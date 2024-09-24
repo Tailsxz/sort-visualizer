@@ -327,35 +327,39 @@ function App() {
       </div>
       <menu className="controlsContainer">
         <label htmlFor="algorithms">Algorithms</label>
-        <div id="algorithms" className="subMenu">
-          <li>
-            <button
-              className={`menuItem ${algorithm == "bubble" ? "active" : ""}`}
-              onClick={() => {
-                resetGridState();
-                setAlgorithm("bubble");
-              }}
-              disabled={isPlaying}
-            >
-              Bubble
-            </button>
-          </li>
-          <li>
-            <button
-              className={`menuItem ${algorithm == "insertion" ? "active" : ""}`}
-              onClick={() => {
-                resetGridState();
-                setAlgorithm("insertion");
-              }}
-              disabled={isPlaying}
-            >
-              Insertion
-            </button>
-          </li>
-        </div>
+        <li id="algorithms">
+          <ul className="subMenu">
+            <li>
+              <button
+                className={`menuItem ${algorithm == "bubble" ? "active" : ""}`}
+                onClick={() => {
+                  resetGridState();
+                  setAlgorithm("bubble");
+                }}
+                aria-label="Change to the bubble sorting algorithm"
+                disabled={isPlaying}
+              >
+                Bubble
+              </button>
+            </li>
+            <li>
+              <button
+                className={`menuItem ${algorithm == "insertion" ? "active" : ""}`}
+                onClick={() => {
+                  resetGridState();
+                  setAlgorithm("insertion");
+                }}
+                aria-label="Change to the insertion sorting algorithm"
+                disabled={isPlaying}
+              >
+                Insertion
+              </button>
+            </li>
+          </ul>
+        </li>
         <label htmlFor="controls">Controls</label>
-        <div id="controls" className="controls" onKeyDown={handleNav}>
-          <div className="subMenu">
+        <li id="controls" className="controls" onKeyDown={handleNav}>
+          <ul className="subMenu">
             <li>
               <button
                 className="menuItem"
@@ -400,13 +404,16 @@ function App() {
                   setSortedNumbers(new Set());
                   resetGridState();
                 }}
+                aria-label="Reset to the initial state"
                 disabled={isPlaying}
               >
                 Reset
               </button>
             </li>
-          </div>
-          <div className="subMenu">
+          </ul>
+        </li>
+        <li>
+          <ul className="subMenu">
             <li>
               <button
                 className="menuItem"
@@ -419,6 +426,7 @@ function App() {
                   setNumbers(randomNumbers);
                   playButton.focus();
                 }}
+                aria-label="Generate a new set of random numbers"
                 disabled={isPlaying}
               >
                 Randomize
@@ -437,13 +445,16 @@ function App() {
 
                   playButton.focus();
                 }}
+                aria-label="Reverse the current set of numbers"
                 disabled={isPlaying}
               >
                 Reverse
               </button>
             </li>
-          </div>
-          <div className="subMenu">
+          </ul>
+        </li>
+        <li>
+          <ul className="subMenu">
             <li>
               <label htmlFor="speed">Speed</label>
               <select
@@ -464,7 +475,7 @@ function App() {
               </select>
             </li>
             <li>
-              <label htmlFor="length">Length</label>
+              <label htmlFor="length">Number Count</label>
               <select
                 className="menuItem"
                 name="length"
@@ -479,8 +490,8 @@ function App() {
                 <option value="150">150</option>
               </select>
             </li>
-          </div>
-        </div>
+          </ul>
+        </li>
       </menu>
     </main>
   );
