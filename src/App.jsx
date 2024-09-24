@@ -298,7 +298,7 @@ function App() {
             ? {
                 outline: "4px solid #33FF00",
               }
-            : {}),
+            : { outline: "none" }),
           backgroundColor: getColor(number, COLORS),
           transition: "outline 100ms ease",
         }}
@@ -363,7 +363,12 @@ function App() {
             >
               {isSorted ? (
                 <div
-                  style={{ width: "1.5rem", height: "1.5rem", color: "green" }}
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    color: "green",
+                    textAlign: "center",
+                  }}
                 >
                   ✔
                 </div>
