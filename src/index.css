@@ -26,9 +26,10 @@ a:hover {
 }
 
 h1 {
-  margin: 1rem auto;
+  margin: 0;
   font-weight: bold;
   line-height: 1.1;
+  text-align: center;
 }
 
 button,
