@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   background: beige;
+  overflow-x: hidden;
 }
 
 #root {
