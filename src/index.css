@@ -3,7 +3,7 @@
   --clr-neutral-400: #180e0f;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 700;
 
   color-scheme: light dark;
   color: var(--clr-neutral-400);
@@ -28,7 +28,6 @@ a:hover {
 h1 {
   margin: auto 0;
   font-size: clamp(1rem, 5vw + 0.5rem, 10rem);
-  font-weight: bold;
   line-height: 1.1;
   text-align: center;
 }
@@ -53,10 +52,6 @@ select:hover {
 button:focus-visible,
 select:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-label {
-  font-weight: bold;
 }
 
 @media (prefers-color-scheme: light) {

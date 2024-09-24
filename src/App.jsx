@@ -273,12 +273,15 @@ function App() {
 
   function handlePlayStateChange() {
     if (!isPlaying) {
-      sortingAlgorithms[algorithm](
-        numbers,
-        lastI || 0,
-        lastJ,
-        lastIterationsRef.current,
-      );
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        sortingAlgorithms[algorithm](
+          numbers,
+          lastI || 0,
+          lastJ,
+          lastIterationsRef.current,
+        );
+      }, 150);
     } else {
       setIsPlaying(false);
     }
@@ -290,13 +293,13 @@ function App() {
       <Bar
         style={{
           height: number * (windowHeight / 240),
-          backgroundColor: getColor(number, COLORS),
           width: `${(windowWidth > 1200 ? 600 : windowWidth / 3) / numbers.length}px`,
           ...(sortedNumbers.has(numberObject)
             ? {
                 outline: "4px solid #33FF00",
               }
             : {}),
+          backgroundColor: getColor(number, COLORS),
           transition: "outline 100ms ease",
         }}
         {...(currentNumbers?.includes(i) && { animate: currentNumsVariant })}
