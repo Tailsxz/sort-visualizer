@@ -1,12 +1,11 @@
 body {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   min-height: 100dvh;
-  padding-block: 2rem;
   background: beige;
 }
 
@@ -35,17 +34,16 @@ body {
   margin-block-end: 1rem;
 }
 
-.menuItemContainer {
+.controlsContainer {
+  list-style: none;
+}
+
+.subMenu {
   display: grid;
   gap: 1rem;
 }
 
-.menuSelectItem {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.menuSelectItem select {
+.menuItem {
   width: 100%;
 }
 
@@ -115,9 +113,8 @@ button {
   border: 6px solid #00FF55;
 }
 
-@media screen and (max-width: 797px) {
-  .menuItemContainer {
-    display: grid;
+@media screen and ((max-width: 797px) or (max-height: 846px)) {
+  .subMenu {
     grid-template-columns: 1fr 1fr;
   }
 }
