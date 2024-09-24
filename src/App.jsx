@@ -78,6 +78,7 @@ function App() {
   const lastIterationsRef = useRef(null);
   const playButtonRef = useRef(null);
   const gridRef = useRef(null);
+  const menuRef = useRef(null);
   const {
     current: [lastI, lastJ],
   } = lastIndicesRef;
@@ -241,7 +242,9 @@ function App() {
   );
 
   function handleNav(e) {
-    const controls = [...e.currentTarget.children];
+    const controls = [
+      ...menuRef.current.querySelectorAll(["button", "select"]),
+    ];
     const currentControlIndex = controls.indexOf(e.target);
     let direction;
 
@@ -325,7 +328,7 @@ function App() {
           {bars}
         </Grid>
       </div>
-      <menu className="controlsContainer">
+      <menu className="controlsContainer" onKeyDown={handleNav} ref={menuRef}>
         <label htmlFor="algorithms">Algorithms</label>
         <li id="algorithms">
           <ul className="subMenu">
@@ -358,7 +361,7 @@ function App() {
           </ul>
         </li>
         <label htmlFor="controls">Controls</label>
-        <li id="controls" className="controls" onKeyDown={handleNav}>
+        <li id="controls" className="controls">
           <ul className="subMenu">
             <li>
               <button
