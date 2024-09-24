@@ -32,6 +32,10 @@ h1 {
   text-align: center;
 }
 
+span {
+  font-size: clamp(0.875rem, 2vw + 0.5rem, 2rem);
+}
+
 button,
 select {
   border-radius: 4px;
