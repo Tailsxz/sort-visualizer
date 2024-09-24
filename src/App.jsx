@@ -62,7 +62,7 @@ function App() {
   const [sortedNumbers, setSortedNumbers] = useState(new Set());
   const [isPlaying, setIsPlaying] = useState(false);
   const [length, setLength] = useState(10);
-  const [speed, setSpeed] = useState(3);
+  const [speed, setSpeed] = useState(1);
   const [swaps, setSwaps] = useState(0);
   const [previousSwaps, setPreviousSwaps] = useState(0);
   const [iterations, setIterations] = useState(0);
@@ -422,7 +422,7 @@ function App() {
           </div>
           <div className="menuItemContainer">
             <div className="menuSelectItem">
-              <label htmlFor="#speed">Speed</label>
+              <label htmlFor="speed">Speed</label>
               <select
                 name="speed"
                 id="speed"
@@ -435,21 +435,23 @@ function App() {
                 <option value="1.5">1.5x</option>
                 <option value="2">2x</option>
                 <option value="3">3x</option>
+                <option value="5">5x</option>
+                <option value="10">10x</option>
               </select>
             </div>
             <div className="menuSelectItem">
-              <label htmlFor="#length">Length</label>
+              <label htmlFor="length">Length</label>
               <select
                 name="length"
                 id="length"
                 value={length}
                 onChange={(e) => setLength(e.target.value)}
               >
-                <option value="5">5</option>
                 <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
                 <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
               </select>
             </div>
           </div>
