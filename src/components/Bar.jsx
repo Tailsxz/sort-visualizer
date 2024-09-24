@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Bar = ({ number, className = "", ...props }) => {
   return (
     <motion.div className={`bar ${className}`} layout {...props}>
-      <motion.div layout className="number">
+      <motion.div layout className="number" aria-hidden>
         {number}
       </motion.div>
     </motion.div>
