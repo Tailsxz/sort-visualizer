@@ -12,10 +12,10 @@ const Grid = ({
     <div className="grid" {...props}>
       <div className="swaps">
         <span>Swap Count: {swaps}</span>
-        {previousSwaps > 0 && <span>Previous Swap Count: {previousSwaps}</span>}
         {totalIterations > 0 && (
           <span>Total Iteration Count: {totalIterations}</span>
         )}
+        {previousSwaps > 0 && <span>Previous Swap Count: {previousSwaps}</span>}
         {previousTotalIterations > 0 && (
           <span>Previous Iteration Count: {previousTotalIterations}</span>
         )}

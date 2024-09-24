@@ -13,7 +13,7 @@ const Bar = ({ number, className = "", ...props }) => {
 
 Bar.propTypes = {
   number: PropTypes.number.isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default Bar;
