@@ -8,6 +8,7 @@ const PlayIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       className="icon icon-play"
+      aria-label="pause icon"
     >
       <path
         strokeLinecap="round"
@@ -19,4 +20,3 @@ const PlayIcon = () => {
 };
 
 export default PlayIcon;
-

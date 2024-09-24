@@ -8,6 +8,7 @@ const PauseIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       className="icon icon-pause"
+      aria-label="pause icon"
     >
       <path
         strokeLinecap="round"

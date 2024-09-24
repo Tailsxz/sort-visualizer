@@ -357,6 +357,9 @@ function App() {
                   handlePlayStateChange();
                 }
               }}
+              aria-label={`${
+                isPlaying ? "Pause" : "Play"
+              } the sorting algorithm`}
               disabled={isSorted}
               ref={playButtonRef}
             >
