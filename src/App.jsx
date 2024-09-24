@@ -10,10 +10,10 @@ const RIGHT_KEYS = new Set(["ArrowRight", "d", "l"]);
 const LEFT_KEYS = new Set(["ArrowLeft", "a", "h"]);
 
 const currentNumsVariant = {
-  outline: "4px solid aquamarine",
+  outline: "6px solid aquamarine",
   scale: 1.1,
   transition: {
-    duration: 0.3,
+    ease: "circOut",
   },
 };
 
@@ -298,9 +298,8 @@ function App() {
             ? {
                 outline: "4px solid #33FF00",
               }
-            : { outline: "none" }),
+            : { outline: "2px solid aquamarine" }),
           backgroundColor: getColor(number, COLORS),
-          transition: "outline 100ms ease",
         }}
         {...(currentNumbers?.includes(i) && { animate: currentNumsVariant })}
         number={number}
