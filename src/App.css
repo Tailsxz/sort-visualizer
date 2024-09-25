@@ -36,7 +36,6 @@ body {
 
 .gridContainer {
   flex-basis: 80%;
-  margin-block-end: 1rem;
 }
 
 .controlsContainer {
