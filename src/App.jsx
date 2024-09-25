@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { motion } from "framer-motion";
 import { nanoid } from "nanoid";
 import Grid from "./components/Grid.jsx";
 import Bar from "./components/Bar.jsx";
@@ -383,15 +384,22 @@ function App() {
                 ref={playButtonRef}
               >
                 {isSorted ? (
-                  <div
+                  <motion.div
                     style={{
                       color: "green",
                       fontSize: "1.5rem",
                       textAlign: "center",
+                      originY: 1,
+                    }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      duration: 0.3,
+                      type: "spring",
                     }}
                   >
                     ✔
-                  </div>
+                  </motion.div>
                 ) : isPlaying ? (
                   <PauseIcon />
                 ) : (
