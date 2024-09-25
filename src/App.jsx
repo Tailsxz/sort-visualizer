@@ -385,9 +385,8 @@ function App() {
                 {isSorted ? (
                   <div
                     style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
                       color: "green",
+                      fontSize: "1.5rem",
                       textAlign: "center",
                     }}
                   >
