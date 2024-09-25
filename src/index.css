@@ -59,6 +59,10 @@ select:hover {
   border-color: #00FF55;
 }
 
+button:disabled:hover {
+  border-color: #550022;
+}
+
 button:focus-visible,
 select:focus-visible {
   outline: 4px solid #5533DD;
