@@ -55,7 +55,7 @@ const COLORS = [
 
 const initialNums = generateRandomNumbers(10);
 function App() {
-  const [algorithm, setAlgorithm] = useState("insertion");
+  const [algorithm, setAlgorithm] = useState("bubble");
   const [numbers, setNumbers] = useState(initialNums);
   const [initialNumbers, setInitialNumbers] = useState([...initialNums]);
   const [currentNumbers, setCurrentNumbers] = useState([0, 1]);
