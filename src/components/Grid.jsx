@@ -16,15 +16,13 @@ const Grid = forwardRef(
     return (
       <div className="grid" ref={ref} {...props}>
         <div className="swaps">
-          <span>Swap Count: {swaps}</span>
+          <p>Swap Count: {swaps}</p>
           {totalIterations > 0 && (
-            <span>Total Iteration Count: {totalIterations}</span>
+            <p>Total Iteration Count: {totalIterations}</p>
           )}
-          {previousSwaps > 0 && (
-            <span>Previous Swap Count: {previousSwaps}</span>
-          )}
+          {previousSwaps > 0 && <p>Previous Swap Count: {previousSwaps}</p>}
           {previousTotalIterations > 0 && (
-            <span>Previous Iteration Count: {previousTotalIterations}</span>
+            <p>Previous Iteration Count: {previousTotalIterations}</p>
           )}
         </div>
         {children}
