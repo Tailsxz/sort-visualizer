@@ -1,4 +1,4 @@
-# Sortalyzer
+# [Sortalyzer](https://tailsxz.github.io/sort-visualizer/)
 
 An interactive visualizer for several sorting algorithms.
 
