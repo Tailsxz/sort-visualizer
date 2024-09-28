@@ -2,8 +2,6 @@
 
 An interactive visualizer for several sorting algorithms.
 
-This is the monorepo for the MVP of this project.
-
 ## Getting Started
 
 To get a copy of this project, you can fork the repo then clone it as your own.
