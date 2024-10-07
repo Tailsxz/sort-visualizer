@@ -7,7 +7,7 @@ import PlayIcon from "./components/PlayIcon.jsx";
 import PauseIcon from "./components/PauseIcon.jsx";
 import "./App.css";
 
-const RIGHT_KEYS = new Set(["ArrowRight", "d", "l"]);
+const RIGHT_KEYS = new Set(["ArrowRight", "d", "l", "Tab"]);
 const LEFT_KEYS = new Set(["ArrowLeft", "a", "h"]);
 
 const currentNumsVariant = {
@@ -369,9 +369,9 @@ function App() {
                 className="menuItem"
                 onClick={handlePlayStateChange}
                 onKeyDown={(e) => {
+                  e.preventDefault();
                   if (e.repeat) return;
                   if (e.key == "Enter" || e.key == " ") {
-                    e.preventDefault();
                     handlePlayStateChange();
                   }
                 }}
