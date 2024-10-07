@@ -50,6 +50,9 @@ body {
 .menuItem {
   width: 100%;
   background: var(--clr-neutral-400);
+}
+
+.menuItem:not(:disabled) {
   color: #FFF;
 }
 
