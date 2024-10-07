@@ -245,7 +245,7 @@ function App() {
   function handleNav(e) {
     const controls = [
       ...menuRef.current.querySelectorAll(["button", "select"]),
-    ];
+    ].filter((node) => !node.disabled);
     const currentControlIndex = controls.indexOf(e.target);
     let direction;
 
