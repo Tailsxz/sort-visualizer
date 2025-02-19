@@ -487,7 +487,7 @@ function App() {
               </select>
             </li>
             <li>
-              <label htmlFor="length">Number Count</label>
+              <label htmlFor="length">Size</label>
               <select
                 className="menuItem"
                 name="length"
